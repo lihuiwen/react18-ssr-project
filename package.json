@@ -1,0 +1,52 @@
+{
+  "name": "react18-ssr-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "dev:client": "webpack serve --config src/config/webpack.client.js --open",
+    "build": "pnpm run build:client && pnpm run build:server",
+    "build:client": "cross-env NODE_ENV=production webpack --config src/config/webpack.client.js",
+    "build:server": "cross-env NODE_ENV=production webpack --config src/config/webpack.server.js",
+    "start": "node dist/server/index.js",
+    "clean": "rm -rf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/koa": "^3.0.0",
+    "@types/koa-static": "^4.0.4",
+    "@types/node": "^24.9.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@types/webpack-node-externals": "^3.0.4",
+    "cross-env": "^10.1.0",
+    "css-loader": "^7.1.2",
+    "express": "^5.1.0",
+    "html-webpack-plugin": "^5.6.4",
+    "koa": "^3.0.3",
+    "koa-static": "^5.0.0",
+    "nodemon": "^3.1.10",
+    "postcss-loader": "^8.2.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-middleware": "^7.4.5",
+    "webpack-dev-server": "^5.2.2",
+    "webpack-hot-middleware": "^2.26.1",
+    "webpack-merge": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
