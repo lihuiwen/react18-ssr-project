@@ -1,12 +1,13 @@
 /**
- * SSR Server Entry Point - Phase 3
- * Basic Koa server with renderToString SSR
+ * SSR Server Entry Point
+ * Phase 3: Basic Koa server with renderToString SSR
+ * Phase 4: Streaming SSR with renderToPipeableStream
  */
 
 import Koa from 'koa';
 import serve from 'koa-static';
 import path from 'path';
-import { renderApp } from './render';
+import { renderAppStream } from './render';
 
 const app = new Koa();
 const PORT = process.env.PORT || 3000;
@@ -23,12 +24,11 @@ app.use(async (ctx, next) => {
   }
 });
 
-// SSR route - render React app
+// SSR route - streaming render React app
 app.use(async (ctx) => {
   try {
-    const html = renderApp();
-    ctx.type = 'text/html';
-    ctx.body = html;
+    // Phase 4: Use streaming SSR
+    renderAppStream(ctx);
   } catch (error) {
     console.error('SSR Error:', error);
     ctx.status = 500;
