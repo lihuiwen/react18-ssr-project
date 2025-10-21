@@ -33,6 +33,15 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.2
         version: 19.2.2(@types/react@19.2.2)
+      '@types/webpack':
+        specifier: ^5.28.5
+        version: 5.28.5(webpack-cli@6.0.1)
+      '@types/webpack-dev-middleware':
+        specifier: ^5.3.0
+        version: 5.3.0(webpack@5.102.1)
+      '@types/webpack-hot-middleware':
+        specifier: ^2.25.11
+        version: 2.25.11(webpack-cli@6.0.1)
       '@types/webpack-node-externals':
         specifier: ^3.0.4
         version: 3.0.4(webpack-cli@6.0.1)
@@ -298,8 +307,18 @@ packages:
   '@types/sockjs@0.3.36':
     resolution: {integrity: sha512-MK9V6NzAS1+Ud7JV9lJLFqW85VbC9dq3LmwZCuBe4wBDgKC0Kj/jd8Xl+nSviU+Qc3+m7umHHyHg//2KSa0a0Q==}
 
+  '@types/webpack-dev-middleware@5.3.0':
+    resolution: {integrity: sha512-SklLlklFBfTyIXo1iWXxzeytjlysWfj5QfIcRJrCc7MgzuCjnZOHXviQwe81iFGq9ZkCUXAg2fpbZdHhj5lSWA==}
+    deprecated: This is a stub types definition. webpack-dev-middleware provides its own type definitions, so you do not need this installed.
+
+  '@types/webpack-hot-middleware@2.25.11':
+    resolution: {integrity: sha512-jNj2XFWGDGAv/xt1BQT7Yk6Wb94/l4gu2H4BVnEGoVKxuxR3lgvlYGxFdj4kcQJm3JgiQLF6R+LBv5CUvOpyXQ==}
+
   '@types/webpack-node-externals@3.0.4':
     resolution: {integrity: sha512-8Z3/edqxE3RRlOJwKSgOFxLZRt/i1qFlv/Bi308ZUKo9jh8oGngd9r8GR0ZNKW5AEJq8QNQE3b17CwghTjQ0Uw==}
+
+  '@types/webpack@5.28.5':
+    resolution: {integrity: sha512-wR87cgvxj3p6D0Crt1r5avwqffqPXUkNlnQ1mjU93G7gCuFjufZR4I6j8cz5g1F1tTYpfOOFvly+cmIQwL9wvw==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -2184,9 +2203,37 @@ snapshots:
     dependencies:
       '@types/node': 24.9.1
 
+  '@types/webpack-dev-middleware@5.3.0(webpack@5.102.1)':
+    dependencies:
+      webpack-dev-middleware: 7.4.5(webpack@5.102.1)
+    transitivePeerDependencies:
+      - webpack
+
+  '@types/webpack-hot-middleware@2.25.11(webpack-cli@6.0.1)':
+    dependencies:
+      '@types/connect': 3.4.38
+      tapable: 2.3.0
+      webpack: 5.102.1(webpack-cli@6.0.1)
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+      - webpack-cli
+
   '@types/webpack-node-externals@3.0.4(webpack-cli@6.0.1)':
     dependencies:
       '@types/node': 24.9.1
+      webpack: 5.102.1(webpack-cli@6.0.1)
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+      - webpack-cli
+
+  '@types/webpack@5.28.5(webpack-cli@6.0.1)':
+    dependencies:
+      '@types/node': 24.9.1
+      tapable: 2.3.0
       webpack: 5.102.1(webpack-cli@6.0.1)
     transitivePeerDependencies:
       - '@swc/core'

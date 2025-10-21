@@ -1,8 +1,16 @@
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import Skeleton from '../shared/components/Loading/Skeleton';
 import AsyncContent from '../shared/components/AsyncContent/AsyncContent';
 
 function App() {
+  const [mounted, setMounted] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+
+  useEffect(() => {
+    console.log('🎯 App component mounted on client!');
+    setMounted(true);
+  }, []);
+
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', maxWidth: '800px' }}>
       {/* Shell content - sent immediately */}
@@ -19,6 +27,23 @@ function App() {
         <p style={{ margin: 0, color: '#555' }}>
           This content is sent immediately when the shell is ready (onShellReady).
         </p>
+        <p style={{ margin: '8px 0 0 0', fontSize: '14px', color: mounted ? 'green' : 'gray' }}>
+          {mounted ? '✅ Client JavaScript is working!' : '⏳ Waiting for JS...'}
+        </p>
+        <button
+          onClick={() => setClickCount(clickCount + 1)}
+          style={{
+            marginTop: '8px',
+            padding: '8px 16px',
+            backgroundColor: '#1976d2',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Click me! (Clicked: {clickCount} times)
+        </button>
       </div>
 
       {/* Suspense boundary 1 - fast loading (1 second) */}
@@ -42,7 +67,7 @@ function App() {
       {/* Footer - part of shell */}
       <div style={{ marginTop: '32px', paddingTop: '16px', borderTop: '1px solid #ddd' }}>
         <p style={{ margin: 0, color: '#999', fontSize: '14px' }}>
-          Phase 4: Streaming SSR with Suspense ✓
+          Phase 5: HMR + Streaming SSR ✓
         </p>
       </div>
     </div>

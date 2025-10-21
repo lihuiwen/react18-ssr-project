@@ -1,24 +1,30 @@
 const path = require('path');
+const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const commonConfig = require('./webpack.common');
 
 const isProduction = process.env.NODE_ENV === 'production';
+const isDevelopment = !isProduction;
+
+// HMR entry points for development
+const hmrEntry = isDevelopment
+  ? ['webpack-hot-middleware/client?path=http://localhost:3001/__webpack_hmr&reload=true']
+  : [];
 
 const clientConfig = merge(commonConfig, {
   name: 'client',
   target: 'web',
 
   entry: {
-    main: path.resolve(__dirname, '../client/index.tsx'),
+    main: [...hmrEntry, path.resolve(__dirname, '../client/index.tsx')],
   },
 
   output: {
     path: path.resolve(__dirname, '../../dist/client'),
     filename: 'bundle.js',
-    // Production: /static/ (for SSR server)
-    // Development: / (for webpack-dev-server)
-    publicPath: isProduction ? '/static/' : '/',
+    // Always use /static/ for dual-server architecture
+    publicPath: '/static/',
     clean: true,
   },
 
@@ -28,6 +34,8 @@ const clientConfig = merge(commonConfig, {
       filename: 'index.html',
       inject: 'body',
     }),
+    // Add HMR plugin in development mode
+    ...(isDevelopment ? [new webpack.HotModuleReplacementPlugin()] : []),
   ],
 
   devServer: {

@@ -14,42 +14,42 @@ import App from '../client/App';
  * Returns a pipeable stream that progressively sends HTML
  */
 export function renderAppStream(ctx: Context): void {
-  // Set response headers before streaming
-  ctx.status = 200;
   ctx.type = 'text/html';
+  let didError = false;
 
-  // Write HTML head immediately
-  ctx.res.write('<!DOCTYPE html>');
-  ctx.res.write('<html lang="en">');
-  ctx.res.write('<head>');
-  ctx.res.write('<meta charset="UTF-8">');
-  ctx.res.write('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-  ctx.res.write('<meta name="description" content="React 18 SSR Project - Streaming SSR">');
-  ctx.res.write('<title>React 18 SSR Project - Streaming</title>');
-  ctx.res.write('</head>');
-  ctx.res.write('<body>');
-  ctx.res.write('<div id="root">');
-
-  const { pipe } = renderToPipeableStream(<App />, {
-    bootstrapScripts: ['/static/bundle.js'],
-
-    // Called when the shell (navigation/layout) is ready
-    onShellReady() {
-      // Pipe React content (will stream progressively)
-      pipe(ctx.res);
-    },
-
-    // Called when shell rendering encounters an error
-    onShellError(error) {
-      console.error('Shell Error:', error);
-      ctx.status = 500;
-      ctx.res.write('<h1>Server Error</h1>');
-      ctx.res.end();
-    },
-
-    // Called if there's an error during streaming
-    onError(error) {
-      console.error('Stream Error:', error);
-    },
-  });
+  const { pipe } = renderToPipeableStream(
+    <html lang="en">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="React 18 SSR Project - Streaming SSR" />
+        <title>React 18 SSR Project - Streaming</title>
+      </head>
+      <body>
+        <div id="root">
+          <App />
+        </div>
+      </body>
+    </html>,
+    {
+      bootstrapScripts: ['/static/bundle.js'],
+      onShellReady() {
+        ctx.status = didError ? 500 : 200;
+        pipe(ctx.res);
+      },
+      onShellError(error) {
+        console.error('Shell Error:', error);
+        ctx.status = 500;
+        ctx.body = '<!DOCTYPE html><html><body><h1>Server Error</h1></body></html>';
+      },
+      onError(error) {
+        didError = true;
+        // Filter out "destination stream closed early" errors (expected when browser closes connection)
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        if (!errorMessage.includes('destination stream closed early')) {
+          console.error('Stream Error:', error);
+        }
+      },
+    }
+  );
 }

@@ -2,6 +2,7 @@
  * Client-side entry point
  * Phase 2: Client-Side Rendering (CSR) with createRoot
  * Phase 3: Hydration with hydrateRoot
+ * Phase 5: Hot Module Replacement (HMR) support
  */
 
 import { hydrateRoot } from 'react-dom/client';
@@ -28,4 +29,21 @@ if (hasServerRenderedContent) {
   const root = createRoot(rootElement);
   root.render(<App />);
   console.log('✅ React 18 client-side rendering initialized');
+}
+
+// Phase 5: Enable Hot Module Replacement
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    console.log('🔥 Hot Module Replacement triggered');
+    // Re-render on hot update
+    const NextApp = require('./App').default;
+
+    if (hasServerRenderedContent) {
+      hydrateRoot(rootElement, <NextApp />);
+    } else {
+      const { createRoot } = require('react-dom/client');
+      const root = createRoot(rootElement);
+      root.render(<NextApp />);
+    }
+  });
 }
