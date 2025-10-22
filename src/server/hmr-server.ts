@@ -16,6 +16,21 @@ const clientConfig = require('../config/webpack.client.js');
 const app = express();
 const PORT = process.env.HMR_PORT || 3001;
 
+// Enable CORS for HMR assets (needed for dual-server architecture)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true');
+
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 // Configure webpack for development mode
 clientConfig.mode = 'development';
 

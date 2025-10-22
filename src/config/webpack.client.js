@@ -23,8 +23,11 @@ const clientConfig = merge(commonConfig, {
   output: {
     path: path.resolve(__dirname, '../../dist/client'),
     filename: 'bundle.js',
-    // Always use /static/ for dual-server architecture
-    publicPath: '/static/',
+    // Use absolute URL in development to point to HMR server
+    // This ensures hot-update.json requests go to the correct server
+    publicPath: isDevelopment
+      ? 'http://localhost:3001/static/'
+      : '/static/',
     clean: true,
   },
 

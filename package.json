@@ -1,7 +1,7 @@
 {
   "name": "react18-ssr-project",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "React 18 SSR project with dual-server architecture, HMR, and React Router",
   "main": "index.js",
   "scripts": {
     "dev": "node scripts/dev.js",
@@ -19,7 +19,8 @@
   "type": "commonjs",
   "dependencies": {
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
@@ -28,6 +29,7 @@
     "@types/node": "^24.9.1",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "@types/react-router-dom": "^5.3.3",
     "@types/webpack": "^5.28.5",
     "@types/webpack-dev-middleware": "^5.3.0",
     "@types/webpack-hot-middleware": "^2.25.11",

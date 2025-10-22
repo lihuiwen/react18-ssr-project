@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-This is a **React 18 Server-Side Rendering (SSR) project** with a modern dual-server architecture. Currently implementing Phase 6 with **Phase 1-5 completed**.
+This is a **React 18 Server-Side Rendering (SSR) project** with a modern dual-server architecture. Currently at Phase 6a with **Phase 1-6a completed**.
 
-**Project Status**: v1.0.0 - Phase 5 Complete (HMR + Streaming SSR)
+**Project Status**: v1.1.0 - Phase 6a Complete (React Router Integration + HMR Fix)
 **Created**: 2025-10-21
 **Last Updated**: 2025-10-22
 **Framework**: React 18 with TypeScript and Webpack 5
@@ -1149,7 +1149,7 @@ renderToPipeableStream(<App />, {
 
 ### Current Status
 
-**Phase 1-5 have been successfully implemented and tested!**
+**Phase 1-6a have been successfully implemented and tested!**
 
 **✅ Completed Phases:**
 - Phase 1: Basic Config & Webpack Setup
@@ -1157,16 +1157,21 @@ renderToPipeableStream(<App />, {
 - Phase 3: Basic SSR Implementation (renderToString)
 - Phase 4: React 18 Streaming SSR (renderToPipeableStream)
 - Phase 5: HMR Dual-Server Architecture (Express + Koa)
+- **Phase 6a: React Router Integration** ⭐ NEW
 
 **Current Capabilities:**
 - ✅ Streaming SSR with React 18
-- ✅ Hot Module Replacement (HMR) working
+- ✅ Hot Module Replacement (HMR) working (stable with absolute URL fix)
 - ✅ Dual-server architecture (HMR:3001, SSR:3000)
 - ✅ Client-side hydration
 - ✅ Interactive features (state, events)
 - ✅ Development workflow optimized
+- ✅ **React Router v7 with SSR support** ⭐ NEW
+- ✅ **Client-side and server-side routing** ⭐ NEW
+- ✅ **404 status code handling** ⭐ NEW
+- ✅ **CORS-enabled dual-server HMR** ⭐ NEW
 
-**Next Phase:** Phase 6a - React Router Integration
+**Next Phase:** Phase 6b - Data Fetching (Mixed Mode)
 
 ### Implementation Phases
 
@@ -1350,4 +1355,155 @@ The project includes a **9-phase implementation plan**:
 - **Phase 9**: React Query integration (optional, for advanced data patterns)
 
 All phases are well-documented with clear objectives, deliverables, and verification steps ready for development.
+
+---
+
+## 📝 Phase 6a Completion Report (2025-10-22)
+
+### ✅ Phase 6a: React Router Integration - COMPLETED
+
+#### Implementation Summary
+
+Successfully integrated React Router v7 with full SSR support, enabling seamless client-side and server-side routing.
+
+#### Key Deliverables
+
+1. **Dependencies Installed:**
+   - `react-router-dom@7.9.4`
+   - `@types/react-router-dom@5.3.3`
+
+2. **Route Configuration Created:**
+   - `src/shared/routes/index.tsx` - Isomorphic route config
+   - Supports both StaticRouter (server) and BrowserRouter (client)
+
+3. **Example Pages Implemented:**
+   - `src/shared/pages/Home/index.tsx` - Home page with navigation
+   - `src/shared/pages/About/index.tsx` - About page with architecture info
+   - `src/shared/pages/NotFound/index.tsx` - 404 error page
+
+4. **Server-Side Rendering Updated:**
+   - `src/server/render.tsx` - Added StaticRouter and Routes
+   - Proper 404 status code handling
+   - Route matching logic for SSR
+
+5. **Client-Side Routing Updated:**
+   - `src/client/index.tsx` - Added BrowserRouter and Routes
+   - HMR compatibility maintained
+   - Hydration works with routing
+
+#### Verification Results
+
+| Test Item | Status | Details |
+|-----------|--------|---------|
+| Home Route (`/`) | ✅ | Renders correctly with all content |
+| About Route (`/about`) | ✅ | Displays architecture information |
+| 404 Route (`/nonexistent`) | ✅ | Shows 404 page with correct content |
+| 404 Status Code | ✅ | Returns proper `404 Not Found` status |
+| SSR Content | ✅ | HTML source contains fully rendered content (SEO-friendly) |
+| Client-Side Navigation | ✅ | Link clicks work without page refresh |
+| HMR Compatibility | ✅ | Hot reloading works with routing changes |
+
+---
+
+## 🔧 Critical Bug Fix: HMR Stability Issue (2025-10-22)
+
+### Problem Identified
+
+During Phase 6a testing, discovered a **critical HMR stability issue** in the dual-server architecture:
+
+**Symptom:**
+```
+http://localhost:3000/static/main.xxx.hot-update.json
+net::ERR_CONNECTION_REFUSED
+```
+
+**Root Cause:**
+- Webpack `publicPath` was using relative path `/static/`
+- Browser resolved it as `localhost:3000/static/` instead of `localhost:3001/static/`
+- HMR update files (`*.hot-update.json`) were requested from wrong server
+- SSR server (`:3000`) doesn't serve HMR files, causing connection refused
+
+### Solution Implemented
+
+#### 1. Webpack Client Config (`src/config/webpack.client.js`)
+
+**Changed:**
+```javascript
+output: {
+  publicPath: isDevelopment
+    ? 'http://localhost:3001/static/'  // ✅ Absolute URL for HMR server
+    : '/static/',                       // Production uses relative path
+}
+```
+
+#### 2. HMR Server CORS Support (`src/server/hmr-server.ts`)
+
+**Added:**
+```typescript
+// Enable CORS for cross-origin resource loading
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  // ... preflight handling
+});
+```
+
+#### 3. SSR Render Script Path (`src/server/render.tsx`)
+
+**Changed:**
+```typescript
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const bundleUrl = isDevelopment
+  ? 'http://localhost:3001/static/bundle.js'  // ✅ Points to HMR server
+  : '/static/bundle.js';                       // Production relative path
+
+bootstrapScripts: [bundleUrl],
+```
+
+### Impact
+
+- ✅ **HMR now stable** - No more connection refused errors
+- ✅ **Multiple saves work** - Can save files repeatedly without issues
+- ✅ **Proper resource loading** - All assets load from correct server
+- ✅ **Production unaffected** - Relative paths still work in production
+
+### Architecture Diagram (After Fix)
+
+```
+Browser (localhost:3000)
+    ↓
+HTML: <script src="http://localhost:3001/static/bundle.js">
+    ↓
+Loads bundle from HMR Server (:3001) ✅
+    ↓
+HMR Update Triggered
+    ↓
+Webpack Client requests: http://localhost:3001/static/main.xxx.hot-update.json
+    ↓
+HMR Server responds with update ✅
+    ↓
+Hot update applied successfully!
+```
+
+---
+
+## 🎯 Current Progress Summary
+
+```
+✅ Phase 1: Basic Config & Webpack Setup
+✅ Phase 2: Client-Side Rendering (CSR)
+✅ Phase 3: Basic SSR Implementation
+✅ Phase 4: React 18 Streaming SSR
+✅ Phase 5: HMR Dual-Server Architecture
+✅ Phase 6a: React Router Integration + HMR Stability Fix
+⏳ Phase 6b: Data Fetching (Next)
+⏳ Phase 7-9: Remaining phases
+```
+
+**Lines of Code Changed:** ~200 lines (across 6 files)
+**New Files Created:** 4 (routes config + 3 pages)
+**Bugs Fixed:** 1 critical (HMR stability)
+**Production Ready:** Phase 1-6a features are production-ready
 
