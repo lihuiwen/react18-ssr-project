@@ -426,6 +426,7 @@ const HeavyChart = lazy(() => import('./HeavyChart'));
 
 ## Related Documentation
 
-- **[HMR.md](../HMR.md)**: Detailed HMR architecture and troubleshooting
+- **[HMR.md](./HMR.md)**: Detailed HMR architecture and troubleshooting
 - **[PHASES.md](./PHASES.md)**: Complete implementation phases
 - **[DEVELOPMENT.md](./DEVELOPMENT.md)**: Development workflows and debugging
+- **[STREAMING_SSR.md](./STREAMING_SSR.md)**: SSR streaming patterns

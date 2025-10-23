@@ -15,8 +15,8 @@
 | **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** | Design decisions, patterns & performance |
 | **[DEVELOPMENT.md](./docs/DEVELOPMENT.md)** | Development workflows & debugging |
 | **[CHANGELOG.md](./docs/CHANGELOG.md)** | Version history & migration guides |
-| **[HMR.md](./HMR.md)** | HMR architecture deep dive |
-| **[STREAMING_SSR.md](./STREAMING_SSR.md)** | SSR streaming patterns |
+| **[HMR.md](./docs/HMR.md)** | HMR architecture deep dive |
+| **[STREAMING_SSR.md](./docs/STREAMING_SSR.md)** | SSR streaming patterns |
 
 ---
 
@@ -92,7 +92,9 @@ react18-ssr-project/
 │   ├── PHASES.md                      # Implementation roadmap
 │   ├── ARCHITECTURE.md                # Design decisions
 │   ├── DEVELOPMENT.md                 # Dev workflows
-│   └── CHANGELOG.md                   # Version history
+│   ├── CHANGELOG.md                   # Version history
+│   ├── HMR.md                         # HMR architecture deep dive
+│   └── STREAMING_SSR.md               # SSR streaming patterns
 │
 ├── src/
 │   ├── client/                        # Browser-side code
@@ -121,8 +123,6 @@ react18-ssr-project/
 │   ├── client/                        # Client bundle
 │   └── server/                        # Server bundle
 │
-├── HMR.md                             # HMR architecture
-├── STREAMING_SSR.md                   # SSR streaming guide
 ├── package.json
 ├── tsconfig.json
 └── tsconfig.server.json
@@ -263,7 +263,7 @@ Client hydration (interactive)
 - Stable HMR connection via absolute URLs
 - CORS-enabled cross-server communication
 
-**See [HMR.md](./HMR.md) for architecture details.**
+**See [HMR.md](./docs/HMR.md) for architecture details.**
 
 ---
 
@@ -357,7 +357,7 @@ function ProductPage() {
 **SSR Errors:**
 - Check server terminal for stack traces
 - Add logging in `src/server/render.tsx`
-- Ensure no browser APIs in shared code
+- See [STREAMING_SSR.md](./docs/STREAMING_SSR.md) for SSR patterns
 
 **Hydration Mismatches:**
 - Server and client must render identical HTML
@@ -405,8 +405,8 @@ pm2 monit
 3. **Architecture**: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) - Design decisions
 4. **Development**: [DEVELOPMENT.md](./docs/DEVELOPMENT.md) - Daily workflows
 5. **Deep Dives**:
-   - [HMR.md](./HMR.md) - HMR architecture & troubleshooting
-   - [STREAMING_SSR.md](./STREAMING_SSR.md) - SSR streaming patterns
+   - [HMR.md](./docs/HMR.md) - HMR architecture & troubleshooting
+   - [STREAMING_SSR.md](./docs/STREAMING_SSR.md) - SSR streaming patterns
 
 ### For Contributors
 
@@ -446,7 +446,7 @@ cat docs/PHASES.md | grep -A 20 "Phase 7"
 
 **Questions?**
 - See [DEVELOPMENT.md](./docs/DEVELOPMENT.md) for troubleshooting
-- Check [HMR.md](./HMR.md) for HMR issues
+- Check [HMR.md](./docs/HMR.md) for HMR issues
 - Review [PHASES.md](./docs/PHASES.md) for implementation details
 
 ---

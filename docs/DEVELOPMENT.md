@@ -473,5 +473,6 @@ pnpm run build:server  # Build server only
 - **[CLAUDE.md](../CLAUDE.md)**: Project overview
 - **[PHASES.md](./PHASES.md)**: Implementation phases
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)**: Architecture details
-- **[HMR.md](../HMR.md)**: HMR deep dive
+- **[HMR.md](./HMR.md)**: HMR deep dive
+- **[STREAMING_SSR.md](./STREAMING_SSR.md)**: SSR streaming patterns
 - **[CHANGELOG.md](./CHANGELOG.md)**: Version history
