@@ -39,7 +39,7 @@ app.use(async (ctx) => {
   try {
     // In development, just use the imported renderAppStream
     // Nodemon will restart the server when files change
-    renderAppStream(ctx);
+    await renderAppStream(ctx);
   } catch (error) {
     console.error('SSR Error:', error);
     ctx.status = 500;

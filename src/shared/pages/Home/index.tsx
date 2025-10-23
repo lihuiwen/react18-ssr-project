@@ -15,7 +15,8 @@ export function HomePage() {
           <li>✅ Phase 3: Basic SSR Implementation</li>
           <li>✅ Phase 4: React 18 Streaming SSR</li>
           <li>✅ Phase 5: HMR Dual-Server Architecture</li>
-          <li>🚀 Phase 6a: React Router Integration (Current)</li>
+          <li>✅ Phase 6a: React Router Integration</li>
+          <li>🚀 Phase 6b: Data Fetching with Loaders (Current)</li>
         </ul>
       </div>
 
@@ -24,17 +25,27 @@ export function HomePage() {
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <li style={{ marginBottom: '10px' }}>
             <Link to="/" style={{ color: '#007bff', textDecoration: 'none' }}>
-              Home
+              🏠 Home
             </Link>
           </li>
           <li style={{ marginBottom: '10px' }}>
             <Link to="/about" style={{ color: '#007bff', textDecoration: 'none' }}>
-              About
+              ℹ️ About
+            </Link>
+          </li>
+          <li style={{ marginBottom: '10px' }}>
+            <Link to="/product/1" style={{ color: '#007bff', textDecoration: 'none' }}>
+              📦 Product: React 18 完全指南
+            </Link>
+          </li>
+          <li style={{ marginBottom: '10px' }}>
+            <Link to="/product/123" style={{ color: '#007bff', textDecoration: 'none' }}>
+              📚 Product: SSR 服务端渲染实战
             </Link>
           </li>
           <li style={{ marginBottom: '10px' }}>
             <Link to="/nonexistent" style={{ color: '#007bff', textDecoration: 'none' }}>
-              404 Page (Test)
+              ❌ 404 Page (Test)
             </Link>
           </li>
         </ul>
