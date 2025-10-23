@@ -11,6 +11,8 @@
 
 [Features](#features) • [Quick Start](#quick-start) • [Documentation](#documentation) • [Architecture](#architecture)
 
+**Languages**: [English](./README.md) | [简体中文](./README.zh-CN.md)
+
 </div>
 
 ---
